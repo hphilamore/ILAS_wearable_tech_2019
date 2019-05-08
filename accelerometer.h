@@ -20,9 +20,9 @@ int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 
 MPU9250 myIMU;
 
-#define x 0
-#define y 1
-#define z 2
+//#define X 0
+//#define Y 1
+//#define Z 2
 
 #define step_threshold 1.5F //3000      // the magnitude of acceleration above which a step is registered
 

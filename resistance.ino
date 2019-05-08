@@ -11,11 +11,7 @@
  * |
  * |---- GND
  */
- bool res_dig_switch(){
-  // Returns true if switch is closed, false if switch is open
-  dig_raw  = digitalRead( dig_switch_pin );
-  return !dig_raw;
-}
+
  
  
  /*
@@ -35,10 +31,9 @@
  float res_stretch(){
   // Calculates V2 (voltage measured across R2)
   R2 = Rs;
-  V2_raw  = analogRead( stretch_pin );   // measured value, range 0 to 1023  
-  V2 = Vs * (V2_raw / 1023.0);           // convert to voltage
-  // R1 =  (Vs - V2) * R2 / V2;          // R1 (Ohms) calculated from equation of voltage divider
-  return V2;
+  V2_raw  = analogRead( stretch_pin );   // measured value, range 0 to 1023 
+  R1 =  (1023 - V2_raw) * R2 / V2_raw;   // R1 (Ohms) calculated from equation of voltage divider 
+  return R1;
 }
 
 
@@ -60,9 +55,8 @@
   // Calculates V2 (voltage measured across R2)
   R2 = Rp;
   V2_raw  = analogRead( pressure_pin );   // measured value, range 0 to 1023  
-  V2 = Vs * (V2_raw / 1023.0);            // convert to voltage
-  // R1 =  (Vs - V2) * R2 / V2;           // R1 (Ohms) calculated from equation of voltage divider
-  return V2;
+  R1 =  (1023 - V2_raw) * R2 / V2_raw;    // R1 (Ohms) calculated from equation of voltage divider 
+  return R1;
 }
 
 //float res_resistivity(float R){

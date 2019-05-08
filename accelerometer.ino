@@ -97,14 +97,14 @@
 //        Serial.println("  ");
 
         // Acceleration values in Gs!
-        acceleration[x] = myIMU.ax;
-        acceleration[y] = myIMU.ay;
-        acceleration[z] = myIMU.az;
+        acceleration[0] = myIMU.ax;
+        acceleration[1] = myIMU.ay;
+        acceleration[2] = myIMU.az;
         
         // Gyro values in degree/sec
-        gyro[x] = myIMU.gx;
-        gyro[y] = myIMU.gy;
-        gyro[z] = myIMU.gz;
+        gyro[0] = myIMU.gx;
+        gyro[1] = myIMU.gy;
+        gyro[2] = myIMU.gz;
 
         myIMU.tempCount = myIMU.readTempData();  // Read the adc values
         // Temperature in degrees Centigrade
@@ -129,9 +129,9 @@ float acc_magnitude_3D(){
   Returns the magnitude of the 3D acceleration vector 
   */
  
-  float M = sqrt(sq(acceleration[x]) + 
-            sq(acceleration[y]) + 
-            sq(acceleration[z])
+  float M = sqrt(sq(acceleration[0]) + 
+            sq(acceleration[1]) + 
+            sq(acceleration[2])
            );
 
   return M;

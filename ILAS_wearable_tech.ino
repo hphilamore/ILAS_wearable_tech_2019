@@ -1,102 +1,101 @@
-#include "Wire.h"
+#include <Wire.h>
 #include "resistance.h"
 #include "capacitance.h"
 #include "accelerometer.h"
 #include "LED.h"
 #include "vib_motor.h"
-//#include "buzzer.h"
 #include "servo.h"
 #include "EMG.h"
-//#include "Filters.h" 
+#include "software_filters.h" 
 
 unsigned long time_ms;
 
-#include "filters.h"
- 
-//const float cutoff_freq   = 20.0;  //Cutoff frequency in Hz
-//const float sampling_time = 0.005; //Sampling time in seconds.
-//IIR::ORDER  order  = IIR::ORDER::OD3; // Order (OD1 to OD4)
-// 
-// Low-pass filter
-//Filter f(cutoff_freq, sampling_time, order);
-
-//Filter LPfilter(cutoff_freq, sampling_time, order);
-
-//#define resistance_sensor false
-//#define capacitance_sensor false
-//#define accelerometer false
-//#define LED false
-//#define vib_motor false
-//#define buzzer false
-//#define servo true
-//#define EMG true
-
-//// Variables used to map input scale to output scale 
-//int Vin_min = 60;     // the minimum read value
-//int Vin_max = 120;   // the maximum read value 
-//int Vout_min = 0;     // the minimum write value 
-//int Vout_max = 255;   // the maximum write value 
-//
-//// running average filter variables
-//const int RunningAverageCount = 16;
-//float RunningAverageBuffer[RunningAverageCount];
-//int NextRunningAverage;
-//
-//// exponential filter variables
-//float ExpEMG = 0;
-//float ExpC0 = 0;
-//float ExpC1 = 1;
-//float weight = 0.1;
 
 void setup() {
   Wire.begin();
   Serial.begin(9600);
   res_setup();
+  //servo_setup();
   //acc_setup();
   //LED_setup();
   //vib_motor_setup();
-  //servo_setup();
+  pinMode(13, OUTPUT);
+  
 }
 
 void loop() {
 
   // Time
-  time_ms = millis();
+  //time_ms = millis();
   //Serial.print( time_ms );
   //Serial.print("\t");
 
   // Digital Switch
-  bool d_switch = res_dig_switch();
-  //Serial.print( d_switch );
-  //Serial.print("\t");
-
+  /*
+  bool d_switch = digitalRead( dig_switch_pin );
+  Serial.print( d_switch );
+  digitalWrite(13, d_switch); 
+  
+//Serial.print("\t");
+*/
   // Stretch sensor
-  float stretch = res_stretch();
-  //Serial.print( stretch );
+float stretch = res_stretch();
+  Serial.print( stretch );
   //Serial.print("\t");
 
   // Pressure sensor
-  float pressure = res_pressure();
-  //Serial.print( pressure );
-  //Serial.print("\t");
+//  float pressure = res_pressure();
+//  //Serial.print( pressure );
+//  //Serial.print("\t");
 
-  // Capacitive sensor
-  cap_sense0 = C0.capacitiveSensor(5);
-  cap_sense1 = C1.capacitiveSensor(5);
-  //Serial.print( cap_sense0 );
-  //Serial.print("\t");
-  //Serial.print( cap_sense1 );
-  //Serial.print("\t");
+//  // Capacitive sensor
+//  cap_sense0 = C0.capacitiveSensor(5);
+//  cap_sense1 = C1.capacitiveSensor(5);
+  //  Serial.print( cap_sense0 );
+  //  Serial.print("\t");
+  //  Serial.print( cap_sense1 );
+  //  Serial.print("\t");
 
   // Filtered Capacitive sensor
+  // Moving Average
+//  cap_sense0_f = MA_filter_cap( C0 );
+//  cap_sense1_f = MA_filter_cap( C1 );
+//  // Exponential
+//  cap_sense0_f = weightC0 * cap_sense0 + (1 - weightC0) * cap_sense0_f;
+//  cap_sense1_f = weightC1 * cap_sense1 + (1 - weightC1) * cap_sense1_f;
+  // Low Pass 
+  //cap_sense0_f = LP_filter_cap0.filterIn( cap_sense0 );
+  //cap_sense1_f = LP_filter_cap1.filterIn( cap_sense1 );
+  //  Serial.print( cap_sense0_f );
+  //  Serial.print("\t");
+  //  Serial.print( cap_sense1_f );
+  //  Serial.print("\t");
 
   // EMG 
-  EMG = analogRead(EMG_pin);
-  Serial.print( EMG );
-  Serial.print( "\t" );
-  //ExpEMG = weight * V2_raw + (1-weight)*ExpEMG;
+//  EMG = analogRead(EMG_pin);
+//  Serial.print( EMG );
+//  Serial.print( "\t" );
+//
+//  // Filtered EMG
+//  // Moving Average
+//  EMG_f = MA_filter_EMG();
+//  // Exponential
+//  EMG_f = weightEMG * EMG + (1 - weightEMG) * EMG_f;
+//  // Low Pass
+//  EMG_f = LP_filter_EMG.filterIn( EMG );
+//  Serial.print( EMG_f );
+//  Serial.print( "\t" );
+//
+//  // Servo
+//  servo_mapto_EMG(EMG_f);
+////  int servo_pos = map(ExpEMG, 
+////                  EMG_min, 
+////                  EMG_max, 
+////                  min_servo_write, 
+////                  max_servo_write);
+////  servo.write(servo_pos);         // write scaled value to servo
 
-  // Filtered EMG
+  
 
 
 //  if( resistance_sensor ){
@@ -406,11 +405,3 @@ void loop() {
 //
 //
 // 
-
-//float LP_filter(){
-//  // Applies the filter given as input to the raw data input and returns the filtered value.
-//  
-//  //LP_filter = Filter(cutoff_freq, sampling_time, order);
-//  float filtered_val = LPfilter.filterIn(raw_val);
-//  return filtered_val;
-//}

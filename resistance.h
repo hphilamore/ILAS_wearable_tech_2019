@@ -45,14 +45,9 @@
 #define dig_switch_pin 2   // digital switch pin
 #define stretch_pin A0     // voltage divider pin 
 #define pressure_pin A1    // voltage divider pin 
-#define Vs 3.5             // supply voltage 
-#define Rs 2000000         // fixed resister 
+#define Rs 1000            // fixed resister 
 #define Rp 2000000         // fixed resister 
 
-bool dig_raw;
-
-float V1;
-float V2;
 int V2_raw;          
 
 float R1;
